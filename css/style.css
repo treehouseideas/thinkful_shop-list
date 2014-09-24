@@ -1,0 +1,114 @@
+@import url('<link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>');
+
+body, html {
+	font-family: 'Roboto', sans-serif;
+	height: 96.7%;
+}
+
+/*** Header/Footer ***/
+header, footer {
+	text-align: center;
+	background-color: #565E75;
+	padding: 30px 0;
+}
+
+header h1{
+	font-size: 3em;
+	color: #fff;
+	margin: 0;
+	font-weight: normal;
+}
+
+footer {
+	position: absolute;
+	height: 10px;
+	width: 100%;
+	bottom: 0px;
+}	
+
+/*** Main Content ***/
+#container {
+	position: relative;
+	min-height: 100%;
+	padding-bottom: 50px;
+}
+
+/*** Section - Add Item ***/
+#items {
+	margin: 30px auto;
+	text-align: center;
+}
+
+#enterItem input {
+	width: 300px;
+}
+
+/*** Section - Lists ***/
+section.lists > p {
+	font-size: 1.5em;
+	padding-left: 16px;
+}
+
+#list, #removedItems {
+	width: 960px;
+	margin: 50px auto;
+	border: 1px solid #000;
+	border-radius: 15px;
+	margin-bottom: 30px;
+	color: #33363C;
+}
+
+#removedItems {
+	display: none;	
+}
+
+/*** List Items ***/
+ul {
+	padding:0;
+}
+
+ul li {
+	list-style: none;
+	border: 1px solid #000;
+	margin: 0 15px 30px 15px;
+	padding: 10px 8px;
+	border-radius: 10px;
+	background-color: #fff;
+}
+
+.testItem {
+	display: inline-block;
+	width: 70%;	
+	margin-left: 0;
+	text-align: center;
+	font-size: 1.3em;
+	font-color: #22262B;
+}
+
+/*** Checkbox ***/
+.test label {
+	float: left;
+	font-size: .8em;
+	padding: 7px 0;
+}
+
+/*** Remove/Add Back to List Buttons ***/
+.remove, .addBack {
+	float: right;
+	font-size: .8em;
+	font-weight: bold;
+	color: #fff;
+	padding: 5px;
+	cursor: pointer;
+	background-color: #FF3F40;
+	border-radius: 30px;
+}
+
+/*** Text Strikethrough Class ***/
+.strike {
+	text-decoration: line-through;
+}
+
+
+
+

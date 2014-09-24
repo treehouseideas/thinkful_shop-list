@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Shopping List</title>
+	<link rel="stylesheet" href="css/normalize.css">
+	<link rel="stylesheet" href="css/style.css"/>
+	<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="js/shoppingList.js"></script>
+</head>
+	<body>
+		
+		<div id="container">
+			
+			<header><h1>Create Your Shopping List</h1></header>
+
+			<section id="items">
+				<form id="enterItem">
+					<input type="text" placeholder="Type Item To Add To Your List">
+					<button id="addItem">Add to List</button>
+					<button id="newList">New List</button>
+				</form>
+			</section>
+
+			<section id="list" class="lists">
+					<p><u>Items On Your List</u>:</p>
+					<ul></ul>
+			</section>
+
+			<section id="removedItems" class="lists">
+					<p><u>Removed Items From Your List</u>:</p>
+					<ul></ul>
+			</section>
+
+			<footer></footer>
+
+		</div><!--container-->
+
+	</body>
+</html>
