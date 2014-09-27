@@ -1,6 +1,12 @@
 @import url('<link href='http://fonts.googleapis.com/css?family=Roboto:400,700' rel='stylesheet' type='text/css'>');
 
-body, html {
+body {
+	background-image: '/images/maxresbak.jpg';
+	font-family: 'Roboto', sans-serif;
+	height: 96.7%;
+}
+
+html {
 	font-family: 'Roboto', sans-serif;
 	height: 96.7%;
 }
@@ -49,13 +55,24 @@ section.lists > p {
 	padding-left: 16px;
 }
 
-#list, #removedItems {
+#list.lists {
+	background-color: #E5E4DD;
 	width: 960px;
 	margin: 50px auto;
 	border: 1px solid #000;
 	border-radius: 15px;
 	margin-bottom: 30px;
-	color: #33363C;
+	color:#33363C;
+} 
+
+#removedItems {
+	background-color: #E5E4DD;
+	width: 960px;
+	margin: 50px auto;
+	border: 1px solid #000;
+	border-radius: 15px;
+	margin-bottom: 30px;
+	color: silver;
 }
 
 #removedItems {
