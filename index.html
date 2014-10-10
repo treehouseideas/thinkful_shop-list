@@ -2,39 +2,39 @@
 <html lang="en">
 <head>
 	<title>Shopping List</title>
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,900,300' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="css/normalize.css">
 	<link rel="stylesheet" href="css/style.css"/>
 	<script type="text/javascript" src="js/jquery-1.10.1.min.js"></script>
-	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+	
 	<script type="text/javascript" src="js/shoppingList.js"></script>
 </head>
 	<body>
-		
-		<div id="container">
-			
-			<header><h1>Create Your Shopping List</h1></header>
-
-			<section id="items">
-				<form id="enterItem">
-					<input type="text" placeholder="Type Item To Add To Your List">
-					<button id="addItem">Add to List</button>
-					<button id="newList">New List</button>
-				</form>
-			</section>
-
-			<section id="list" class="lists">
-					<p><u>Items On Your List</u>:</p>
-					<ul></ul>
-			</section>
-
-			<section id="removedItems" class="lists">
-					<p><u>Removed Items From Your List</u>:</p>
-					<ul></ul>
-			</section>
-
-			<footer>Paolo Liwanag - Thinkful FEWD - Shopping List</footer>
-
-		</div><!--container-->
-
+		<div id="main">
+            <div class="row header_row">
+                <div class="fa fa-shopping-cart"></div>
+				<h1 class="title">Mobile<br>Shopping List</h1>
+            </div>
+            <div class="row">
+                <input type="text" id="new_item" placeholder="Milk, Eggs, Bread, etc." autofocus />
+            </div>
+            <div class="row">
+                <ul class="items">
+                </ul>
+            </div>
+            <div id="footer" class="row">
+                <a href="#" id="check_all" class="multicontrol"><span class="fa fa-check-square-o "></span> Mark all checked</a>
+                <a href="#" id="remove_all" class="multicontrol"><span class="fa fa-remove "></span> Remove all checked</a>
+                <div id="item_count">5 item(s)</div>
+            </div>
+        </div>
+        <script id="list_item_template" type="text/template">
+                <li class="item">
+                    <div class="control remover"><span class="fa fa-remove"></span></div>
+                    <div class="control checkbox"><span class="fa fa-check-square "></span></div>
+                    <span class="item_text" contenteditable="true"></span>
+                </li>
+        </script>
 	</body>
 </html>

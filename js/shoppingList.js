@@ -1,67 +1,192 @@
-$(document).ready(function(){
+(function () {
+    "use strict";
 
-//Make List Items sortable
-$("#list > ul").sortable({connectWith: ".lists > ul",cursor: "move"}).disableSelection();
+    // Shopping list model
+    function ShoppingList() {
+        this.restore();
+    }
+    ShoppingList.prototype = {
+        addItem: function addItem(item) {
+            var id = "item_" + (this.id)++;
+            this.items[id] = {name: item, completed: false};
+            this.updateStorage();
+            return id;
+        },
+        getItem: function getItem(id) {
+            return this.items[id];
+        },
+        removeItem: function removeItem(id) {
+            delete this.items[id];
+            this.updateStorage();
+        },
+        updateItem: function updateItem(id, name) {
+            this.items[id].name = name;
+            this.updateStorage();
+        },
+        toggleItem: function toggleItem(id) {
+            this.items[id].completed = !this.items[id].completed;
+            this.updateStorage();
+        },
+        updateStorage: function updateStorage() {
+            localStorage.shoppingListItems = JSON.stringify(this.items);
+            localStorage.shoppingListID = this.id;
+        },
+        restore: function restore() {
+            if (localStorage.shoppingListItems) {
+                this.items = JSON.parse(localStorage.shoppingListItems);
+                this.id = parseInt(localStorage.shoppingListID, 10);
+            } else {
+                this.items = {};
+                this.id = 0;
+            }
+        },
+        getIDs: function getIDs() {
+            return Object.keys(this.items);
+        },
+        count: function count() {
+            return Object.keys(this.items).length;
+        }
+    };
 
+    $(document).ready(function() {
 
-//Add Item to List and Clear Input form
-$("#addItem").on("click",function(e){
-	e.preventDefault();
-	var itemToAdd = $("#enterItem input").val();
-	var newListItem =  "<li class='test'><div><label><input type='checkbox' class='cbox'> Mark As Complete </label><div class='testItem'>" 
-						+ itemToAdd + "</div><span class='remove'>Remove</span></div></li>";
-	$("#list ul").prepend(newListItem);
-	$("#enterItem input").val(" ").focus();
-});
+        var newItem = $('#new_item'),
+            itemsList = $('.items'),
+            checkAll = $('#check_all'),
+            removeAll = $('#remove_all'),
+            newItemTemplate = $('#list_item_template').text(),
+            shoppingList = new ShoppingList();
 
-//Fadeout Removed Items List if empty
-var lilengthArr = 0;
-function removedItemsListFade(){
-	if(lilengthArr === 0){
-		$("#removedItems").fadeOut(1000);
-			};
-	};
+        // Controller functions
+        function removeItem(bypassConfirm) {
+            var targetItem = $(this),
+                listItem = targetItem.parent(),
+                id = listItem.attr('id'),
+                confirmed = true;
+            if (bypassConfirm !== true) {
+                confirmed = confirm('Are you sure you wish to remove this item?');
+            }
+            if (confirmed) {
+                // Remove item from list model
+                shoppingList.removeItem(id);
+                // Animate list item removal
+                listItem.toggle(400, function () {
+                    // Remove item from list view
+                    listItem.remove();
+                    updateCount();
+                });
+            }
+        }
 
-//Remove Item from List and Add to Removed Iems List
-$(".lists").on("click",".remove",function(){
-	
-	lilengthArr++;
-	var listItem = $(this).parent().parent();
-	
-	$(listItem).fadeOut("fast",function(){
-		$(this).detach().prependTo("#removedItems ul").fadeIn("slow");
-		$("#removedItems").fadeIn("fast");
-		$(this).find(".remove").text("Add Back To List");
-		$(this).find("span").removeClass("remove").addClass("addBack");
-		});
-	});
-	
-//Add Back to Main List
-$(".lists").on("click",".addBack",function(){
+        function toggleItem() {
+            var targetItem = $(this),
+                listItem = targetItem.parent(),
+                id = listItem.attr('id');
+            // Toggle completion in shopping list
+            shoppingList.toggleItem(id);
+            // Toggle checkmark
+            targetItem.toggleClass('checkbox_complete');
+            // Toggle strike through
+            listItem.find('.item_text').toggleClass('item_complete');
+        }
 
-	lilengthArr--;
-	var listItem = $(this).parent().parent();
-	
-	$(listItem).fadeOut("fast",function(){
-		$(this).detach().prependTo("#list ul").fadeIn("slow");
-		$(this).find(".addBack").text("Remove");
-		$(this).find("span").removeClass("addBack").addClass("remove");	
-		});
-	
-	removedItemsListFade();
-	});
+        function updateItem() {
+            var targetItem = $(this),
+                listItem = targetItem.parent(),
+                id = listItem.attr('id'),
+                newName = targetItem.text();
+            if (Boolean(newName) && !newName.match(/^\s+$/)) {
+                shoppingList.updateItem(id, newName);
+                targetItem.blur();
+            }
+        }
 
-//Mark as Complete
-$(".lists").on("change","input.cbox",function(){
-	$(this).parent().siblings("div.testItem").toggleClass("strike");
-	});
+        function addListItemBehaviors(item) {
+            item.find('.checkbox').click(toggleItem);
+            item.find('.remover').click(removeItem);
+            item.find('.item_text').keydown(function (e) {
+                if (e.keyCode === 13) {
+                    e.preventDefault();
+                    updateItem.apply(this);
+                }
+            });
+        }
 
-//New List
-$("#newList").click(function(e){
-	e.preventDefault();
-	lilengthArr = 0;
-	$(".test").remove();
-	removedItemsListFade();
-	});	
+        function addItem() {
+            var targetItem = $(this),
+                itemName = targetItem.val(),
+                newListItem = $(newItemTemplate),
+                id = null;
+            // Ignore black or whitespace-only entries
+            if (Boolean(itemName) && !itemName.match(/^\s+$/)) {
+                id = shoppingList.addItem(itemName);
+                // Reset item entry input box
+                newItem.val('');
+                // Update template
+                newListItem.attr('id', id);
+                newListItem.find('.item_text').text(itemName);
+                addListItemBehaviors(newListItem);
+                newListItem.hide();
+                // Add item to the view list
+                itemsList.append(newListItem);
+                // Animate item appearance
+                newListItem.toggle('400');
+                updateCount();
+            }
+        }
 
-});
+        function restoreItem(id, item) {
+            var newListItem = $(newItemTemplate);
+            // Rebuild item markup
+            newListItem.attr('id', id);
+            newListItem.find('.item_text').text(item.name);
+            addListItemBehaviors(newListItem);
+            // Match item completion status
+            if (item.completed) {
+                newListItem.find('.checkbox').toggleClass('checkbox_complete');
+                newListItem.find('.item_text').toggleClass('item_complete');
+            }
+            itemsList.append(newListItem);
+        }
+
+        function restoreItems() {
+            shoppingList.getIDs().map(function (id) {
+                restoreItem(id, shoppingList.getItem(id));
+            });
+            updateCount();
+        }
+
+        function updateCount() {
+            $('#item_count').text(shoppingList.count() + ' item(s)');
+        }
+
+        function checkAllItems() {
+            $('.checkbox').not('.checkbox_complete').each(function (idx, val) {
+                toggleItem.apply(val);
+            });
+        }
+
+        function removeAllCheckedItems() {
+            if (shoppingList.count() &&
+                    confirm('Are you sure you want to remove all checked items?')) {
+                $('.checkbox_complete').each(function (idx, val) {
+                    removeItem.apply(val, [true]);
+                });
+            }
+        }
+
+        // Restore previous shopping list items
+        restoreItems();
+
+        // Set event handler for new list items
+        newItem.keydown(function (e) {
+            if (e.keyCode === 13) {
+                e.preventDefault();
+                addItem.apply(this);
+            }
+        });
+        // Add event handlers for multi control buttons
+        checkAll.click(checkAllItems);
+        removeAll.click(removeAllCheckedItems);
+    });
+}());
