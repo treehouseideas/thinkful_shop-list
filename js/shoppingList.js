@@ -52,9 +52,9 @@
 
         var newItem = $('#new_item'),
             itemsList = $('.items'),
-            checkAll = $('#check_all'),
-            removeAll = $('#remove_all'),
             newItemTemplate = $('#list_item_template').text(),
+			checkAll = $('#check_all'),
+            removeAll = $('#remove_all'),
             shoppingList = new ShoppingList();
 
         // Controller functions
