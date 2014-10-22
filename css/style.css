@@ -5,6 +5,7 @@ body {
     height: 85%;
     margin: 0;
     padding: 0;
+	padding-top: 100px;
 
     background: url('http://desktopict.org/wp-content/uploads/2014/03/dark-blue-abstract-wallpaper-6.jpg');
     background-repeat: repeat-x;
@@ -176,7 +177,7 @@ body {
 		background: url('');
 		background-repeat: no-repeat;
 		background-size: cover;
-		background-color: indigo;
+		background-color: steelblue;
 	}
 	.items {
         padding-bottom: 6em;
