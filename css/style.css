@@ -5,10 +5,11 @@ body {
     height: 85%;
     margin: 0;
     padding: 0;
+	padding-top: 25px;
 
     background: url('http://desktopict.org/wp-content/uploads/2014/03/dark-blue-abstract-wallpaper-6.jpg');
-    background-repeat: repeat-x;
-    background-size: cover;
+    background-repeat: repeat;
+    background-size: container;
 
     font-size: 1em;
     font-family: 'Source Sans Pro', sans-serif;
@@ -173,10 +174,10 @@ body {
 /* Mobile */
 @media only screen and (max-width: 767px) {
     body {
-		background: url('');
-		background-repeat: no-repeat;
-		background-size: cover;
-		background-color: indigo;
+		background: url('http://desktopict.org/wp-content/uploads/2014/03/dark-blue-abstract-wallpaper-6.jpg');
+		background-repeat: repeat;
+		background-size: contain;
+		background-color: steelblue;
 	}
 	.items {
         padding-bottom: 6em;
